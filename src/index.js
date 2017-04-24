@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import {Bloodhound} from 'corejs-typeahead'
-import _ from 'lodash'
+import {uniqBy} from 'lodash'
 
 var preferredLocale = 'en-GB'
 var showPaths = true
@@ -128,7 +128,7 @@ function presentResults (graph, reverseMap, rawResults, query) {
 
   canonicalNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically)
 
-  const uniqueNodesWithPathsAndWeights = _.uniqBy(canonicalNodesWithPathsAndWeights, (cnwp) => {
+  const uniqueNodesWithPathsAndWeights = uniqBy(canonicalNodesWithPathsAndWeights, (cnwp) => {
     return presentableName(cnwp.node, preferredLocale)
   })
 
