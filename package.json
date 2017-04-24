@@ -1,0 +1,7 @@
+{
+  "name": "registers-autocomplete-engine",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
+  "license": "MIT"
+}
