@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import {Bloodhound} from 'corejs-typeahead'
+import Bloodhound from 'corejs-typeahead'
 import {uniqBy} from 'lodash'
 
 var preferredLocale = 'en-GB'
@@ -197,3 +197,7 @@ function locationPickerSuggestions (pathToGraph) {
 }
 
 export default locationPickerSuggestions
+
+if (window) {
+  window.locationPickerSuggestions = locationPickerSuggestions
+}

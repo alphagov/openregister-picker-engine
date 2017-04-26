@@ -34,8 +34,8 @@ jest.mock('jquery', () => ({
     callback(graph)
   })
 }))
-jest.mock('corejs-typeahead', () => ({
-  Bloodhound: Object.assign(
+jest.mock('corejs-typeahead', () => (
+  Object.assign(
     jest.fn(function () {
       this.search = jest.fn((query, callback) => {
         switch (query) {
@@ -58,7 +58,7 @@ jest.mock('corejs-typeahead', () => ({
       }
     }
   )
-}))
+))
 const $ = require('jquery')
 const locationPickerSuggestions = require('./index').default
 
