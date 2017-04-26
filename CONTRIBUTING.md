@@ -24,10 +24,10 @@ yarn test:dev
 ## Cutting a new release
 
 ```bash
-yarn version <major|minor|patch>
+npm version <major|minor|patch>
 vim CHANGELOG.md # Update changelog, put all unreleased changes under new heading.
 vim README.md # Update readme, bump all hard-coded version numbers, file size if necessary.
 git commit -am "Update readme and changelog"
 git push
-yarn publish
+npm publish
 ```
