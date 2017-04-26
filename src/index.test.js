@@ -1,4 +1,4 @@
-/* global describe, expect, jest, test */
+/* global beforeAll, describe, expect, jest, test */
 jest.mock('../lib/fetch', () => require('fetch'))
 jest.mock('./engine', () => (
   Object.assign(
@@ -10,6 +10,9 @@ jest.mock('./engine', () => (
             break
           case 'gre':
             callback(['Great Britain'])
+            break
+          case 'uk':
+            callback(['Ukraine', 'United Kingdom', 'United Kingdom'])
             break
           default:
             callback([])
@@ -37,22 +40,40 @@ describe('locationPickerSuggestions', () => {
     })
     expect(suggestResult).toEqual(undefined)
   })
+})
+
+describe('createSuggestionEngine', () => {
+  let suggest
+
+  beforeAll((done) => {
+    suggest = locationPickerSuggestions('some-path.json', done)
+  })
+
+  test('suggests nothing for empty query', (done) => {
+    suggest('', (results) => {
+      expect(results).toEqual([])
+      done()
+    })
+  })
 
   test('suggests a country', (done) => {
-    const suggest = locationPickerSuggestions('some-path.json', () => {
-      suggest('un', (results) => {
-        expect(results).toEqual(['United Kingdom'])
-        done()
-      })
+    suggest('un', (results) => {
+      expect(results).toEqual(['United Kingdom'])
+      done()
     })
   })
 
   test('suggests a country with a path', (done) => {
-    const suggest = locationPickerSuggestions('some-path.json', () => {
-      suggest('gre', (results) => {
-        expect(results).toEqual(['United Kingdom (Great Britain)'])
-        done()
-      })
+    suggest('gre', (results) => {
+      expect(results).toEqual(['United Kingdom (Great Britain)'])
+      done()
+    })
+  })
+
+  test('suggests countries with correct ordering', (done) => {
+    suggest('uk', (results) => {
+      expect(results).toEqual(['United Kingdom', 'Ukraine'])
+      done()
     })
   })
 })
