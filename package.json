@@ -1,6 +1,6 @@
 {
   "name": "registers-picker-engine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/picker-engine.min.js",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "license": "MIT",
