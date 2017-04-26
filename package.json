@@ -1,7 +1,7 @@
 {
-  "name": "registers-autocomplete-engine",
+  "name": "registers-picker-engine",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/picker-engine.min.js",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "license": "MIT",
   "dependencies": {

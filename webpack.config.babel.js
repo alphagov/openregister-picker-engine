@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'autocomplete-engine.min.js'
+    filename: 'picker-engine.min.js'
   },
 
   resolve: {
