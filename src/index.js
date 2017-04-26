@@ -1,5 +1,5 @@
-import $ from 'jquery'
 import Bloodhound from 'corejs-typeahead/dist/bloodhound.js'
+import fetch from '../lib/fetch'
 import uniqBy from '../lib/uniq'
 
 var preferredLocale = 'en-GB'
@@ -179,15 +179,19 @@ function createSuggestionEngine (graph) {
   return suggest
 }
 
-function locationPickerSuggestions (pathToGraph) {
+function locationPickerSuggestions (pathToGraph, callback) {
   // This will be reassigned when the graph is fetched and ready.
   var suggest = function (query, syncResults) {
     syncResults([])
   }
 
-  $.get(pathToGraph, function (graph) {
-    suggest = createSuggestionEngine(graph)
-  })
+  fetch(pathToGraph)
+    .then((response) => response.text())
+    .then((graphText) => JSON.parse(graphText))
+    .then((graph) => {
+      suggest = createSuggestionEngine(graph)
+      if (callback) { callback() }
+    })
 
   function suggestWrapper () {
     suggest.apply(this, arguments)
