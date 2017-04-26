@@ -2,6 +2,7 @@ import webpack from 'webpack'
 import ReplacePlugin from 'replace-bundle-webpack-plugin'
 import path from 'path'
 import V8LazyParseWebpackPlugin from 'v8-lazy-parse-webpack-plugin'
+import WebpackVisualizerPlugin from 'webpack-visualizer-plugin'
 const ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
@@ -42,7 +43,8 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV)
-    })
+    }),
+    new WebpackVisualizerPlugin()
   ]).concat(ENV === 'production' ? [
     new V8LazyParseWebpackPlugin(),
     new webpack.optimize.UglifyJsPlugin({

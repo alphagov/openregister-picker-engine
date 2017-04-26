@@ -1,6 +1,6 @@
 import $ from 'jquery'
-import Bloodhound from 'corejs-typeahead'
-import {uniqBy} from 'lodash'
+import Bloodhound from 'corejs-typeahead/dist/bloodhound.js'
+import uniqBy from '../lib/uniq'
 
 var preferredLocale = 'en-GB'
 var showPaths = true

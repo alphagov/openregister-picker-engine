@@ -34,7 +34,7 @@ jest.mock('jquery', () => ({
     callback(graph)
   })
 }))
-jest.mock('corejs-typeahead', () => (
+jest.mock('corejs-typeahead/dist/bloodhound.js', () => (
   Object.assign(
     jest.fn(function () {
       this.search = jest.fn((query, callback) => {
