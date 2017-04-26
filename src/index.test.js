@@ -12,7 +12,7 @@ jest.mock('./engine', () => (
             callback(['Great Britain'])
             break
           case 'uk':
-            callback(['Ukraine', 'United Kingdom', 'United Kingdom'])
+            callback(['Ukraine', 'UK', 'United Kingdom'])
             break
           default:
             callback([])
@@ -72,7 +72,7 @@ describe('createSuggestionEngine', () => {
 
   test('suggests countries with correct ordering', (done) => {
     suggest('uk', (results) => {
-      expect(results).toEqual(['United Kingdom', 'Ukraine'])
+      expect(results).toEqual(['United Kingdom (UK)', 'Ukraine'])
       done()
     })
   })
