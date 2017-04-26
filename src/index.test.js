@@ -1,18 +1,18 @@
 /* global describe, expect, jest, test */
 jest.mock('../lib/fetch', () => require('fetch'))
-jest.mock('corejs-typeahead/dist/bloodhound.js', () => (
+jest.mock('./engine', () => (
   Object.assign(
     jest.fn(function () {
       this.search = jest.fn((query, callback) => {
         switch (query) {
-          case 'whatever':
-            callback([])
-            break
           case 'un':
             callback(['United Kingdom'])
             break
           case 'gre':
             callback(['Great Britain'])
+            break
+          default:
+            callback([])
             break
         }
       })

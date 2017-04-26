@@ -1,4 +1,4 @@
-import Bloodhound from 'corejs-typeahead/dist/bloodhound.js'
+import Engine from './engine'
 import fetch from '../lib/fetch'
 import uniqBy from '../lib/uniq'
 
@@ -114,7 +114,7 @@ function byWeightAndThenAlphabetically (a, b) {
           : 0
 }
 
-// Bloodhound gives us back a list of results that includes synonyms, typos,
+// Engine gives us back a list of results that includes synonyms, typos,
 // endonyms and other things we don't want the user to see.
 // This function transforms those into a list of stable canonical country names.
 function presentResults (graph, reverseMap, rawResults, query) {
@@ -154,11 +154,11 @@ function createSuggestionEngine (graph) {
   var reverseMap = locationReverseMap(graph)
 
   // The keys of the reverseMap represent all the names/synonyms/endonyms, so
-  // we use them as the seed data for Bloodhound.
+  // we use them as the seed data for Engine.
   var seed = Object.keys(reverseMap)
-  var locationsTrie = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.nonword,
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
+  var locationsTrie = new Engine({
+    datumTokenizer: Engine.tokenizers.nonword,
+    queryTokenizer: Engine.tokenizers.whitespace,
     local: seed
   })
 
