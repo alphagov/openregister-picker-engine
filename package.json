@@ -2,8 +2,23 @@
   "name": "registers-picker-engine",
   "version": "0.0.2",
   "main": "dist/picker-engine.min.js",
+  "description": "An autocomplete engine for building openregister.org pickers.",
+  "repository": "alphagov/registers-picker-engine",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "license": "MIT",
+  "keywords": [
+    "autocomplete",
+    "engine"
+  ],
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack -p --progress --display-modules",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
+    "postversion": "git push && git push --tags",
+    "preversion": "npm test",
+    "test:dev": "npm test -- --watch",
+    "test": "jest --coverage",
+    "version": "npm run build && git add -A dist"
+  },
   "dependencies": {
     "corejs-typeahead": "^1.1.1",
     "whatwg-fetch": "^2.0.3"
@@ -20,14 +35,5 @@
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.4",
     "webpack-visualizer-plugin": "^0.1.11"
-  },
-  "scripts": {
-    "build": "cross-env NODE_ENV=production webpack -p --progress --display-modules",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
-    "postversion": "git push && git push --tags",
-    "preversion": "npm test",
-    "test:dev": "npm test -- --watch",
-    "test": "jest --coverage",
-    "version": "npm run build && git add -A dist"
   }
 }
