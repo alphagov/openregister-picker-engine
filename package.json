@@ -1,9 +1,9 @@
 {
-  "name": "registers-picker-engine",
+  "name": "openregister-picker-engine",
   "version": "0.0.2",
   "main": "dist/picker-engine.min.js",
   "description": "An autocomplete engine for building openregister.org pickers.",
-  "repository": "alphagov/registers-picker-engine",
+  "repository": "alphagov/openregister-picker-engine",
   "author": "Theodor Vararu <theodor.vararu@digital.cabinet-office.gov.uk>",
   "license": "MIT",
   "keywords": [

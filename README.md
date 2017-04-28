@@ -1,4 +1,4 @@
-Openregisters Picker Engine
+Openregister Picker Engine
 ===
 
 This project is a WIP.
