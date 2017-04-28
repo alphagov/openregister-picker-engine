@@ -58,21 +58,28 @@ describe('createSuggestionEngine', () => {
 
   test('suggests a country', (done) => {
     suggest('un', (results) => {
-      expect(results).toEqual(['United Kingdom'])
+      expect(results).toEqual([
+        {name: 'United Kingdom', path: ''}
+      ])
       done()
     })
   })
 
   test('suggests a country with a path', (done) => {
     suggest('gre', (results) => {
-      expect(results).toEqual(['United Kingdom (Great Britain)'])
+      expect(results).toEqual([
+        {name: 'United Kingdom', path: 'Great Britain'}
+      ])
       done()
     })
   })
 
   test('suggests countries with correct ordering', (done) => {
     suggest('uk', (results) => {
-      expect(results).toEqual(['United Kingdom (UK)', 'Ukraine'])
+      expect(results).toEqual([
+        {name: 'United Kingdom', path: 'UK'},
+        {name: 'Ukraine', path: ''}
+      ])
       done()
     })
   })

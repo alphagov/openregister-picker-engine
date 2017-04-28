@@ -50,9 +50,9 @@
   </head>
   <body>
     <main>
-      <h1>Picker Engine examples</h1>
+      <h1>Openregister Picker Engine</h1>
 
-      <h2>Basic</h2>
+      <h2>Basic example</h2>
       <p>This illustrates basic usage.</p>
       <label for="default">Select your country</label>
       <div id="default-container" class="autocomplete-wrapper"></div>
@@ -63,11 +63,27 @@
       var element = document.querySelector('#default-container')
       var id = 'default'
       var dataFilePath = 'location-picker-graph.json'
+
+      function inputValueTemplate (result) {
+        return result && result.name
+      }
+
+      function suggestionTemplate (result) {
+        var path = result && result.path
+          ? ' (' + result.path + ')'
+          : ''
+        return result && '<strong>' + result.name + '</strong>' + path
+      }
+
       AccessibleTypeahead({
         element: element,
         id: id,
         minLength: 2,
-        source: locationPickerSuggestions(dataFilePath)
+        source: locationPickerSuggestions(dataFilePath),
+        templates: {
+          inputValue: inputValueTemplate,
+          suggestion: suggestionTemplate
+        }
       })
     </script>
   </body>

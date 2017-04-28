@@ -198,10 +198,13 @@ function presentResults (graph, reverseMap, rawResults, query) {
         .map(pathNode => presentableName(pathNode.node, pathNode.locale))
       var lastNode = stableNamesInPath.pop()
       if (lastNode) {
-        pathToName = ` (${lastNode})`
+        pathToName = lastNode
       }
     }
-    return `${canonicalName}${pathToName}`
+    return {
+      name: canonicalName,
+      path: pathToName
+    }
   })
 
   return presentableNodes
