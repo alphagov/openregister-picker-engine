@@ -239,7 +239,7 @@ function createSuggestionEngine (graph) {
   return suggest
 }
 
-function locationPickerSuggestions (pathToGraph, callback) {
+function openregisterPickerEngine (pathToGraph, callback) {
   // This will be reassigned when the graph is fetched and ready.
   var suggest = function (query, syncResults) {
     syncResults([])
@@ -260,8 +260,8 @@ function locationPickerSuggestions (pathToGraph, callback) {
   return suggestWrapper
 }
 
-export default locationPickerSuggestions
+export default openregisterPickerEngine
 
 if (window) {
-  window.locationPickerSuggestions = locationPickerSuggestions
+  window.openregisterPickerEngine = openregisterPickerEngine
 }

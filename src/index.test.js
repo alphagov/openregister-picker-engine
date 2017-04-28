@@ -28,11 +28,11 @@ jest.mock('./engine', () => (
     }
   )
 ))
-const locationPickerSuggestions = require('./index').default
+const openregisterPickerEngine = require('./index').default
 
-describe('locationPickerSuggestions', () => {
+describe('openregisterPickerEngine', () => {
   test('returns a suggestion function', (done) => {
-    const suggest = locationPickerSuggestions('some-path.json')
+    const suggest = openregisterPickerEngine('some-path.json')
     expect(typeof suggest).toEqual('function')
     const suggestResult = suggest('whatever', (results) => {
       expect(results).toEqual([])
@@ -46,7 +46,7 @@ describe('createSuggestionEngine', () => {
   let suggest
 
   beforeAll((done) => {
-    suggest = locationPickerSuggestions('some-path.json', done)
+    suggest = openregisterPickerEngine('some-path.json', done)
   })
 
   test('suggests nothing for empty query', (done) => {
