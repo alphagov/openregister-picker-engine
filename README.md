@@ -9,7 +9,7 @@
 You can include the standalone build by referencing it in your page:
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/openregister-picker-engine@0.2.0"></script>
+<script type="text/javascript" src="https://unpkg.com/openregister-picker-engine@0.3.0"></script>
 ```
 
 To use it, call the `window.openregisterPickerEngine` function, providing a link to your OpenRegister data file:
