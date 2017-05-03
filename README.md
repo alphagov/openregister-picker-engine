@@ -1,5 +1,7 @@
 # Openregister Picker Engine
 
+[![Build Status](https://travis-ci.org/alphagov/openregister-picker-engine.svg?branch=master)](https://travis-ci.org/alphagov/openregister-picker-engine)
+
 `openregister-picker-engine` is a JavaScript autocomplete engine. It's designed to interface an autocomplete widget (such as [accessible-typeahead](https://github.com/alphagov/accessible-typeahead) or [corejs-typeahead](https://github.com/corejavascript/typeahead.js)) with data from the [openregister](http://www.openregister.org/).
 
 ## Installation / Usage
