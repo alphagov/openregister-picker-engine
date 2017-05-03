@@ -263,8 +263,4 @@ function openregisterPickerEngine ({ url, fallback, callback }) {
   return suggestWrapper
 }
 
-export default openregisterPickerEngine
-
-if (window) {
-  window.openregisterPickerEngine = openregisterPickerEngine
-}
+module.exports = openregisterPickerEngine

@@ -28,7 +28,7 @@ jest.mock('./engine', () => (
     }
   )
 ))
-const openregisterPickerEngine = require('./index').default
+const openregisterPickerEngine = require('./index')
 
 describe('openregisterPickerEngine', () => {
   test('returns a suggestion function', (done) => {

@@ -12,7 +12,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'picker-engine.min.js'
+    filename: 'picker-engine.min.js',
+    library: 'openregisterPickerEngine',
+    libraryTarget: 'umd'
   },
 
   resolve: {

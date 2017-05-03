@@ -20,6 +20,22 @@ var suggest = openregisterPickerEngine({ url: '/public/data/location-picker-grap
 
 The function will immediately return a `suggest` function and perform an asynchronous [fetch](https://github.github.io/fetch/) call to retrieve and parse the provided JSON.
 
+### As a node module
+
+Install it using `npm` / `yarn`:
+
+```bash
+npm install --save openregister-picker-engine
+```
+
+Then use it:
+
+```js
+import openregisterPickerEngine from 'openregister-picker-engine'
+
+const suggest = openregisterPickerEngine({ url: '/public/data/location-picker-graph.json' })
+```
+
 ## API Documentation
 
 ### `openregisterPickerEngine(options)`

@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- Add support for UMD/commonjs module definition.
+
 ## 0.3.0 - 2017-05-03
 
 - [Breaking] Allow users to pass in a fallback function to use while the graph is loading or if it fails to load.
