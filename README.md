@@ -15,22 +15,28 @@ You can include the standalone build by referencing it in your page:
 To use it, call the `window.openregisterPickerEngine` function, providing a link to your OpenRegister data file:
 
 ```js
-var suggest = openregisterPickerEngine('/public/data/location-picker-graph.json')
+var suggest = openregisterPickerEngine({ url: '/public/data/location-picker-graph.json' })
 ```
 
 The function will immediately return a `suggest` function and perform an asynchronous [fetch](https://github.github.io/fetch/) call to retrieve and parse the provided JSON.
 
 ## API Documentation
 
-### `openregisterPickerEngine(url, [callback])`
+### `openregisterPickerEngine(options)`
 
-#### `url`
+#### `options.url`
 
 Type: `string`
 
 The path to the OpenRegister data file.
 
-#### `callback`
+#### `options.fallback`
+
+Type: `function`
+
+An optional function that will be used as the `suggest` in the meantime until the graph loads or in the event that the graph fails to load.
+
+#### `options.callback`
 
 Type: `function`
 
@@ -64,7 +70,7 @@ The `path` is an optional string specifying the last node that the engine had to
 For example, if you seed the engine with the data for the Location Picker, and search for `deut`:
 
 ```js
-> const suggest = openregisterPickerEngine('location-picker-graph.json')
+> const suggest = openregisterPickerEngine({ url: 'location-picker-graph.json' })
 > suggest('deut', (results) => console.log(results))
 [
   {

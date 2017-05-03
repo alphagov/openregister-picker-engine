@@ -79,7 +79,7 @@
         element: element,
         id: id,
         minLength: 2,
-        source: openregisterPickerEngine(dataFilePath),
+        source: openregisterPickerEngine({ url: dataFilePath }),
         templates: {
           inputValue: inputValueTemplate,
           suggestion: suggestionTemplate
