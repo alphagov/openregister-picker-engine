@@ -6,8 +6,12 @@ function text () {
   })
 }
 
-export default function fetch () {
-  return new Promise((resolve) => {
-    resolve({ text })
+export default function fetch (url) {
+  return new Promise((resolve, reject) => {
+    if (url === 'fail') {
+      reject({ error: 'Failed to fetch URL' })
+    } else {
+      resolve({ text })
+    }
   })
 }

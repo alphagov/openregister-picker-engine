@@ -32,7 +32,7 @@ const openregisterPickerEngine = require('./index').default
 
 describe('openregisterPickerEngine', () => {
   test('returns a suggestion function', (done) => {
-    const suggest = openregisterPickerEngine('some-path.json')
+    const suggest = openregisterPickerEngine({ url: 'some-path.json' })
     expect(typeof suggest).toEqual('function')
     const suggestResult = suggest('whatever', (results) => {
       expect(results).toEqual([])
@@ -45,8 +45,8 @@ describe('openregisterPickerEngine', () => {
 describe('createSuggestionEngine', () => {
   let suggest
 
-  beforeAll((done) => {
-    suggest = openregisterPickerEngine('some-path.json', done)
+  beforeAll((callback) => {
+    suggest = openregisterPickerEngine({ url: 'some-path.json', callback })
   })
 
   test('suggests nothing for empty query', (done) => {
@@ -81,6 +81,21 @@ describe('createSuggestionEngine', () => {
         {name: 'Ukraine', path: ''}
       ])
       done()
+    })
+  })
+
+  test('suggests using fallback when failing to fetch', (done) => {
+    const fallback = (query, syncResults) => syncResults('fallback')
+    suggest = openregisterPickerEngine({
+      url: 'fail',
+      fallback,
+      callback: (err) => {
+        expect(err).toEqual({ error: 'Failed to fetch URL' })
+        suggest('uk', (results) => {
+          expect(results).toEqual('fallback')
+          done()
+        })
+      }
     })
   })
 })

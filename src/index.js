@@ -239,18 +239,21 @@ function createSuggestionEngine (graph) {
   return suggest
 }
 
-function openregisterPickerEngine (pathToGraph, callback) {
+function openregisterPickerEngine ({ url, fallback, callback }) {
   // This will be reassigned when the graph is fetched and ready.
-  var suggest = function (query, syncResults) {
+  var suggest = fallback || function (query, syncResults) {
     syncResults([])
   }
 
-  fetch(pathToGraph)
+  fetch(url)
     .then((response) => response.text())
     .then((graphText) => JSON.parse(graphText))
     .then((graph) => {
       suggest = createSuggestionEngine(graph)
       if (callback) { callback() }
+    })
+    .catch((err) => {
+      if (callback) { callback(err) }
     })
 
   function suggestWrapper () {
