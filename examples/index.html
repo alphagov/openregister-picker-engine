@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Picker Engine examples</title>
-    <link rel="stylesheet" href="https://unpkg.com/accessible-typeahead@0.4.0/examples/styled.css" />
+    <link rel="stylesheet" href="https://unpkg.com/accessible-autocomplete@1.4.1/dist/accessible-autocomplete.min.css" />
     <style>
       html {
         color: #111;
@@ -58,7 +58,7 @@
       <div id="default-container" class="autocomplete-wrapper"></div>
     </main>
     <script type="text/javascript" src="../dist/picker-engine.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/accessible-typeahead@0.4.2"></script>
+    <script type="text/javascript" src="https://unpkg.com/accessible-autocomplete@1.4.1"></script>
     <script type="text/javascript">
       var element = document.querySelector('#default-container')
       var id = 'default'
@@ -75,7 +75,7 @@
         return result && '<strong>' + result.name + '</strong>' + path
       }
 
-      AccessibleTypeahead({
+      accessibleAutocomplete({
         element: element,
         id: id,
         minLength: 2,
