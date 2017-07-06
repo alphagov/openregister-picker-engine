@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+- [Feature] Add support for additional synonyms.
+
 ## 1.0.0 - 2017-05-03
 
 - Initial release.

@@ -60,6 +60,22 @@ Type: `function`
 
 An optional callback that will be executed when the graph has successfully finished loading and parsing.
 
+
+#### `options.additionalSynonyms`
+
+Type: `array`
+
+An optional array to provide the engine with additional synonyms to use when searching for entries. The array should look like this:
+
+```js
+[
+  { name: 'Albion', code: 'country:GB' },
+  { name: 'The Beautiful Country', code: 'country:IT' },
+]
+```
+
+Where `name` is the searchable name of the synonym and `code` is the primary key for the node.
+
 ### `suggest(query, syncResults)`
 
 #### `query`
