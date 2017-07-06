@@ -239,7 +239,29 @@ function createSuggestionEngine (graph) {
   return suggest
 }
 
-function openregisterPickerEngine ({ url, fallback, callback }) {
+function synonymsToGraph (synonyms) {
+  return synonyms.reduce((graph, synonym) => {
+    const entryCode = `nym:${synonym.name}`
+    graph[entryCode] = {
+      names: {
+        'en-GB': synonym.name,
+        'cy': false
+      },
+      meta: {
+        'canonical': false,
+        'canonical-mask': 0,
+        'display-name': false,
+        'stable-name': false
+      },
+      edges: {
+        from: [synonym.code]
+      }
+    }
+    return graph
+  }, {})
+}
+
+function openregisterPickerEngine ({ additionalSynonyms, callback, fallback, url }) {
   // This will be reassigned when the graph is fetched and ready.
   var suggest = fallback || function (query, syncResults) {
     syncResults([])
@@ -249,6 +271,10 @@ function openregisterPickerEngine ({ url, fallback, callback }) {
     .then((response) => response.text())
     .then((graphText) => JSON.parse(graphText))
     .then((graph) => {
+      if (additionalSynonyms && additionalSynonyms.length) {
+        const additionalSynonymsGraph = synonymsToGraph(additionalSynonyms)
+        graph = Object.assign(graph, additionalSynonymsGraph)
+      }
       suggest = createSuggestionEngine(graph)
       if (callback) { callback() }
     })

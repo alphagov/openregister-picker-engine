@@ -28,6 +28,7 @@ jest.mock('./engine', () => (
     }
   )
 ))
+const Engine = require('./engine')
 const openregisterPickerEngine = require('./index')
 
 describe('openregisterPickerEngine', () => {
@@ -95,6 +96,21 @@ describe('createSuggestionEngine', () => {
           expect(results).toEqual('fallback')
           done()
         })
+      }
+    })
+  })
+  
+  test('passes synonyms to Engine', (done) => {
+    openregisterPickerEngine({
+      url: 'some-path.json',
+      additionalSynonyms: [
+        { name: 'Albion', code: 'country:GB' },
+        { name: 'The Beautiful Country', code: 'country:IT' },
+      ],
+      callback: () => {
+        const latestEngineCall = Engine.mock.calls[Engine.mock.calls.length - 1]
+        expect(latestEngineCall).toMatchSnapshot()
+        done()
       }
     })
   })
