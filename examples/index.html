@@ -79,7 +79,13 @@
         element: element,
         id: id,
         minLength: 2,
-        source: openregisterPickerEngine({ url: dataFilePath }),
+        source: openregisterPickerEngine({
+          additionalSynonyms: [
+            { name: 'Albion', code: 'country:GB' },
+            { name: 'The Beautiful Country', code: 'country:IT' },
+          ],
+          url: dataFilePath
+        }),
         templates: {
           inputValue: inputValueTemplate,
           suggestion: suggestionTemplate
