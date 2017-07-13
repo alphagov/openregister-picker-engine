@@ -6,22 +6,6 @@
 
 ## Installation / Usage
 
-### Plain JS
-
-You can include the standalone build by referencing it in your page:
-
-```html
-<script type="text/javascript" src="https://unpkg.com/openregister-picker-engine@1.0.0"></script>
-```
-
-To use it, call the `window.openregisterPickerEngine` function, providing a link to your OpenRegister data file:
-
-```js
-var suggest = openregisterPickerEngine({ url: '/public/data/location-picker-graph.json' })
-```
-
-The function will immediately return a `suggest` function and perform an asynchronous [fetch](https://github.github.io/fetch/) call to retrieve and parse the provided JSON.
-
 ### As a node module
 
 Install it using `npm` / `yarn`:
