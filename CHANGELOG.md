@@ -4,6 +4,8 @@
 
 _(add items here for easier creation of next log entry)_
 
+## 1.2.0 - 2017-07-14
+
 - [Feature] Add support for custom entries.
 
 ## 1.1.0 - 2017-07-13
