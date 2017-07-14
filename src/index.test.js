@@ -100,12 +100,27 @@ describe('createSuggestionEngine', () => {
     })
   })
   
-  test('passes synonyms to Engine', (done) => {
+  test('passes custom synonyms to Engine', (done) => {
     openregisterPickerEngine({
       url: 'some-path.json',
       additionalSynonyms: [
         { name: 'Albion', code: 'country:GB' },
         { name: 'The Beautiful Country', code: 'country:IT' },
+      ],
+      callback: () => {
+        const latestEngineCall = Engine.mock.calls[Engine.mock.calls.length - 1]
+        expect(latestEngineCall).toMatchSnapshot()
+        done()
+      }
+    })
+  })
+  
+  test('passes custom entries to Engine', (done) => {
+    openregisterPickerEngine({
+      url: 'some-path.json',
+      additionalEntries: [
+        { name: 'Atlantis', code: 'country:AN' },
+        { name: 'Principality of Dorne', code: 'territory:DR' }
       ],
       callback: () => {
         const latestEngineCall = Engine.mock.calls[Engine.mock.calls.length - 1]

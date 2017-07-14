@@ -80,6 +80,10 @@
         id: id,
         minLength: 2,
         source: openregisterPickerEngine({
+          additionalEntries: [
+            { name: 'Atlantis', code: 'country:AN' },
+            { name: 'Principality of Dorne', code: 'territory:DR' }
+          ],
           additionalSynonyms: [
             { name: 'Albion', code: 'country:GB' },
             { name: 'The Beautiful Country', code: 'country:IT' },

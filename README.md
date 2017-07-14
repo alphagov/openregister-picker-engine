@@ -44,6 +44,20 @@ Type: `function`
 
 An optional callback that will be executed when the graph has successfully finished loading and parsing.
 
+#### `options.additionalEntries`
+
+Type: `array`
+
+An optional array to provide the engine with additional canonical entries. The array should look like this:
+
+```js
+[
+  { name: 'Atlantis', code: 'country:AN' },
+  { name: 'Principality of Dorne', code: 'territory:DR' }
+]
+```
+
+Where `name` is the searchable name of the entry and `code` is the primary key for the node.
 
 #### `options.additionalSynonyms`
 
