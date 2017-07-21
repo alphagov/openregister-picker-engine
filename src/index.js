@@ -1,5 +1,5 @@
 import Engine from './engine'
-import fetch from '../lib/fetch'
+import Request from '../lib/request'
 import uniqBy from '../lib/uniq'
 
 var preferredLocale = 'en-GB'
@@ -189,6 +189,8 @@ function presentResults (graph, reverseMap, rawResults, query) {
     return presentableName(cnwp.node, preferredLocale)
   })
 
+  uniqueNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically)
+
   var presentableNodes = uniqueNodesWithPathsAndWeights.map(cnwp => {
     var canonicalName = presentableName(cnwp.node, preferredLocale)
     var pathToName = ''
@@ -288,24 +290,44 @@ function openregisterPickerEngine ({ additionalEntries, additionalSynonyms, call
     syncResults([])
   }
 
-  fetch(url)
-    .then((response) => response.text())
-    .then((graphText) => JSON.parse(graphText))
-    .then((graph) => {
-      if (additionalEntries && additionalEntries.length) {
-        const additionalEntriesGraph = entriesToGraph(additionalEntries)
-        graph = Object.assign(graph, additionalEntriesGraph)
+  var request = new Request()
+  request.open('GET', url)
+  request.onreadystatechange = function handleStateChange () {
+    var error
+    var responseReady = (request.readyState === 4 && this.status >= 200 && this.status < 300)
+    if (responseReady) {
+      try {
+        var graph = JSON.parse(request.responseText)
+      } catch (exception) {
+        error = { error: 'Failed to parse JSON ' + exception }
+        if (callback) { callback(error) }
       }
-      if (additionalSynonyms && additionalSynonyms.length) {
-        const additionalSynonymsGraph = synonymsToGraph(additionalSynonyms)
-        graph = Object.assign(graph, additionalSynonymsGraph)
+      if (graph) {
+        if (additionalEntries && additionalEntries.length) {
+          const additionalEntriesGraph = entriesToGraph(additionalEntries)
+          for (var key in additionalEntriesGraph) {
+            if (additionalEntriesGraph.hasOwnProperty(key)) {
+              graph[key] = additionalEntriesGraph[key]
+            }
+          }
+        }
+        if (additionalSynonyms && additionalSynonyms.length) {
+          const additionalSynonymsGraph = synonymsToGraph(additionalSynonyms)
+          for (var key in additionalSynonymsGraph) {
+            if (additionalSynonymsGraph.hasOwnProperty(key)) {
+              graph[key] = additionalSynonymsGraph[key]
+            }
+          }
+        }
+        suggest = createSuggestionEngine(graph)
+        if (callback) { callback() }
       }
-      suggest = createSuggestionEngine(graph)
-      if (callback) { callback() }
-    })
-    .catch((err) => {
-      if (callback) { callback(err) }
-    })
+    } else {
+      error = { error: 'Failed to fetch URL' }
+      if (callback) { callback(error) }
+    }
+  }
+  request.send()
 
   function suggestWrapper () {
     suggest.apply(this, arguments)

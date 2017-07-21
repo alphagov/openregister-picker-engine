@@ -1,5 +1,5 @@
 /* global beforeAll, describe, expect, jest, test */
-jest.mock('../lib/fetch', () => require('fetch'))
+jest.mock('../lib/request', () => require('request'))
 jest.mock('./engine', () => (
   Object.assign(
     jest.fn(function () {
@@ -99,7 +99,7 @@ describe('createSuggestionEngine', () => {
       }
     })
   })
-  
+
   test('passes custom synonyms to Engine', (done) => {
     openregisterPickerEngine({
       url: 'some-path.json',
