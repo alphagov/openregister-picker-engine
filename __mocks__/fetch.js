@@ -1,17 +1,24 @@
 const graph = require('../examples/location-picker-graph.json')
 
 function text () {
-  return new Promise((resolve) => {
-    resolve(JSON.stringify(graph))
-  })
+  var graphText = JSON.stringify(graph))
+  console.log(graphText)
 }
 
-export default function fetch (url) {
-  return new Promise((resolve, reject) => {
+function reqError(error) {
+  console.log('Failed to fetch URL', error);
+}
+
+export default function fetch (error, url) {
+  var request = new XMLHttpRequest()
+  request.onload = text
+  request.onerror = requestError
+  return text
+  /*return new Promise((resolve, reject) => {
     if (url === 'fail') {
       reject({ error: 'Failed to fetch URL' })
     } else {
       resolve({ text })
     }
-  })
+  })*/
 }
