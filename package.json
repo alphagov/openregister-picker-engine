@@ -1,6 +1,6 @@
 {
   "name": "openregister-picker-engine",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "dist/picker-engine.min.js",
   "description": "An autocomplete engine for building openregister.org pickers.",
   "repository": "alphagov/openregister-picker-engine",
