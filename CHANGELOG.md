@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 _(add items here for easier creation of next log entry)_
+- Fix - Allow support for IE 9, 10 and 11.
 
 ## 1.2.0 - 2017-07-14
 
