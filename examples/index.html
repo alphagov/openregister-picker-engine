@@ -60,9 +60,9 @@
     <script type="text/javascript" src="../dist/picker-engine.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/accessible-autocomplete@1.4.1"></script>
     <script type="text/javascript">
-      var element = document.querySelector('#default-container')
-      var id = 'default'
-      var dataFilePath = 'location-picker-graph.json'
+      var element = document.querySelector('#default-container');
+      var id = 'default';
+      var dataFilePath = 'location-picker-graph.json';
 
       function inputValueTemplate (result) {
         return result && result.name
@@ -71,7 +71,7 @@
       function suggestionTemplate (result) {
         var path = result && result.path
           ? ' (' + result.path + ')'
-          : ''
+          : '';
         return result && '<strong>' + result.name + '</strong>' + path
       }
 
@@ -88,7 +88,8 @@
             { name: 'Albion', code: 'country:GB' },
             { name: 'The Beautiful Country', code: 'country:IT' },
           ],
-          url: dataFilePath
+          url: dataFilePath,
+          ended_after: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() // Only show current countries
         }),
         templates: {
           inputValue: inputValueTemplate,

@@ -2,11 +2,11 @@ import Engine from './engine'
 import Request from '../lib/request'
 import uniqBy from '../lib/uniq'
 
-var preferredLocale = 'en-GB'
-var showPaths = true
+var preferredLocale = 'en-GB';
+var showPaths = true;
 
 function presentableName (node, locale) {
-  var requestedName = node['names'][locale]
+  var requestedName = node['names'][locale];
   var fallback = Object.keys(node['names']).map(k => node['names'][k])[0]
   return requestedName || fallback
 }
@@ -14,14 +14,14 @@ function presentableName (node, locale) {
 function locationReverseMap (graph) {
   return Object.keys(graph)
     .reduce((revMap, curie) => {
-      var node = graph[curie]
+      var node = graph[curie];
       Object.keys(node.names).forEach(locale => {
-        var name = node.names[locale]
-        var isntDefinedAndLocaleIsEnGb = !revMap[name] && locale === preferredLocale
+        var name = node.names[locale];
+        var isntDefinedAndLocaleIsEnGb = !revMap[name] && locale === preferredLocale;
         if (isntDefinedAndLocaleIsEnGb) {
           revMap[name] = { node, locale }
         }
-      })
+      });
       return revMap
     }, {})
 }
@@ -39,7 +39,7 @@ function findCanonicalNodeWithPath (graph, node, locale, path) {
       return [{ node, locale: preferredLocale, path }]
     } else {
       // Get all the linked nodes.
-      var linkedNodes = node.edges.from.map(nodeFromCurie => graph[nodeFromCurie])
+      var linkedNodes = node.edges.from.map(nodeFromCurie => graph[nodeFromCurie]);
       // Find the canonical nodes for each one of them.
       return linkedNodes.reduce((canonicalNodes, linkedNode) => {
         return canonicalNodes.concat(findCanonicalNodeWithPath(
@@ -70,58 +70,58 @@ function indexOfLowerCase (str, prefix) {
 // Returns the same node and path, with added weight based on a number of criteria.
 // Higher weight means higher priority, so it should be ranked higher in the list.
 function addWeight (canonicalNodeWithPath, query) {
-  const cnwp = canonicalNodeWithPath
+  const cnwp = canonicalNodeWithPath;
 
-  const name = presentableName(cnwp.node, preferredLocale)
+  const name = presentableName(cnwp.node, preferredLocale);
 
   const synonym = cnwp.path
     .map(pathNode => presentableName(pathNode.node, pathNode.locale))
     .map(nameInPath => nameInPath.toLowerCase())
-    .pop()
+    .pop();
 
-  const indexOfQuery = indexOfLowerCase(name, query)
+  const indexOfQuery = indexOfLowerCase(name, query);
 
-  const isUk = name === 'United Kingdom'
-  const isUs = name === 'United States'
+  const isUk = name === 'United Kingdom';
+  const isUs = name === 'United States';
 
   // Temporary country weighting
-  const ukBias = 2
-  const usBias = 1.5
-  const defaultCountryBias = 1
+  const ukBias = 2;
+  const usBias = 1.5;
+  const defaultCountryBias = 1;
 
-  const isExactMatchToCanonicalName = name.toLowerCase() === query.toLowerCase()
+  const isExactMatchToCanonicalName = name.toLowerCase() === query.toLowerCase();
 
-  const canonicalNameStartsWithQuery = indexOfQuery === 0
+  const canonicalNameStartsWithQuery = indexOfQuery === 0;
 
   const wordInCanonicalNameStartsWithQuery = name
       .split(' ')
       .filter(w => w.toLowerCase().indexOf(query.toLowerCase()) === 0)
-      .length > 0
+      .length > 0;
 
   // TODO: make these const
-  var synonymIsExactMatch = false
-  var synonymStartsWithQuery = false
-  var wordInSynonymStartsWith = false
-  var indexOfSynonymQuery = false
-  var synonymContainsQuery = false
+  var synonymIsExactMatch = false;
+  var synonymStartsWithQuery = false;
+  var wordInSynonymStartsWith = false;
+  var indexOfSynonymQuery = false;
+  var synonymContainsQuery = false;
 
   if (synonym) {
-    synonymIsExactMatch = synonym === query.toLowerCase()
+    synonymIsExactMatch = synonym === query.toLowerCase();
 
     synonymStartsWithQuery = synonym
-      .indexOf(query.toLowerCase()) === 0
+      .indexOf(query.toLowerCase()) === 0;
 
     wordInSynonymStartsWith = synonym
       .split(' ')
       .filter(w => w.toLowerCase().indexOf(query.toLowerCase()) === 0)
-      .length > 0
+      .length > 0;
 
     indexOfSynonymQuery = indexOfLowerCase(synonym, query)
   }
 
   // TODO: Contains consts don't work
-  const canonicalNameContainsQuery = indexOfQuery > 0
-  synonymContainsQuery = indexOfSynonymQuery > 0
+  const canonicalNameContainsQuery = indexOfQuery > 0;
+  synonymContainsQuery = indexOfSynonymQuery > 0;
 
   // Canonical name matches
   if (isExactMatchToCanonicalName) {
@@ -146,19 +146,19 @@ function addWeight (canonicalNodeWithPath, query) {
 
   // Longer paths mean canonical node is further from matched synonym, so rank it lower.
   // TODO - pruning multiple matches should happen elsewhere
-  cnwp.weight -= cnwp.path.length
+  cnwp.weight -= cnwp.path.length;
 
-  var countryBias = isUk ? ukBias : defaultCountryBias
-  countryBias = isUs ? usBias : countryBias
+  var countryBias = isUk ? ukBias : defaultCountryBias;
+  countryBias = isUs ? usBias : countryBias;
 
-  cnwp.weight *= countryBias
+  cnwp.weight *= countryBias;
 
   return cnwp
 }
 
 function byWeightAndThenAlphabetically (a, b) {
-  const aName = presentableName(a.node, preferredLocale)
-  const bName = presentableName(b.node, preferredLocale)
+  const aName = presentableName(a.node, preferredLocale);
+  const bName = presentableName(b.node, preferredLocale);
   return (a.weight > b.weight)
     ? -1
     : (a.weight < b.weight)
@@ -175,30 +175,30 @@ function byWeightAndThenAlphabetically (a, b) {
 // endonyms and other things we don't want the user to see.
 // This function transforms those into a list of stable canonical country names.
 function presentResults (graph, reverseMap, rawResults, query) {
-  var nodesWithLocales = rawResults.map(r => reverseMap[r])
+  var nodesWithLocales = rawResults.map(r => reverseMap[r]);
 
   var canonicalNodesWithPaths = nodesWithLocales.reduce((canonicalNodes, nwl) => {
     return canonicalNodes.concat(findCanonicalNodeWithPath(graph, nwl.node, nwl.locale, []))
-  }, [])
+  }, []);
 
-  const canonicalNodesWithPathsAndWeights = canonicalNodesWithPaths.map(cnwp => addWeight(cnwp, query))
+  const canonicalNodesWithPathsAndWeights = canonicalNodesWithPaths.map(cnwp => addWeight(cnwp, query));
 
-  canonicalNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically)
+  canonicalNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically);
 
   const uniqueNodesWithPathsAndWeights = uniqBy(canonicalNodesWithPathsAndWeights, (cnwp) => {
     return presentableName(cnwp.node, preferredLocale)
-  })
+  });
 
-  uniqueNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically)
+  uniqueNodesWithPathsAndWeights.sort(byWeightAndThenAlphabetically);
 
   var presentableNodes = uniqueNodesWithPathsAndWeights.map(cnwp => {
-    var canonicalName = presentableName(cnwp.node, preferredLocale)
-    var pathToName = ''
+    var canonicalName = presentableName(cnwp.node, preferredLocale);
+    var pathToName = '';
     if (showPaths && cnwp.path.length) {
       var stableNamesInPath = cnwp.path
         .filter(pathNode => pathNode.node.meta['stable-name'])
-        .map(pathNode => presentableName(pathNode.node, pathNode.locale))
-      var lastNode = stableNamesInPath.pop()
+        .map(pathNode => presentableName(pathNode.node, pathNode.locale));
+      var lastNode = stableNamesInPath.pop();
       if (lastNode) {
         pathToName = lastNode
       }
@@ -207,36 +207,34 @@ function presentResults (graph, reverseMap, rawResults, query) {
       name: canonicalName,
       path: pathToName
     }
-  })
+  });
 
   return presentableNodes
 }
 
 function createSuggestionEngine (graph) {
-  var reverseMap = locationReverseMap(graph)
+  var reverseMap = locationReverseMap(graph);
 
   // The keys of the reverseMap represent all the names/synonyms/endonyms, so
   // we use them as the seed data for Engine.
-  var seed = Object.keys(reverseMap)
+  var seed = Object.keys(reverseMap);
   var locationsTrie = new Engine({
     datumTokenizer: Engine.tokenizers.nonword,
     queryTokenizer: Engine.tokenizers.whitespace,
     local: seed
-  })
+  });
 
   var suggest = function (query, syncResults) {
-    const showNoResults = query.length <= 1
+    const showNoResults = query.length <= 1;
     if (showNoResults) {
       syncResults([])
     } else {
-      query = query.replace(/\./g, '')
+      query = query.replace(/\./g, '');
       locationsTrie.search(query, (rawResults) => {
-        var presentableResults = presentResults(graph, reverseMap, rawResults, query)
-
-        syncResults(presentableResults)
+          syncResults(presentResults(graph, reverseMap, rawResults, query));
       })
     }
-  }
+  };
 
   return suggest
 }
@@ -257,14 +255,14 @@ function entriesToGraph (entries) {
         'en-GB': entry.name,
         'cy': false
       }
-    }
+    };
     return graph
   }, {})
 }
 
 function synonymsToGraph (synonyms) {
   return synonyms.reduce((graph, synonym) => {
-    const entryCode = `nym:${synonym.name}`
+    const entryCode = `nym:${synonym.name}`;
     graph[entryCode] = {
       names: {
         'en-GB': synonym.name,
@@ -279,32 +277,85 @@ function synonymsToGraph (synonyms) {
       edges: {
         from: [synonym.code]
       }
-    }
+    };
     return graph
   }, {})
 }
 
-function openregisterPickerEngine ({ additionalEntries, additionalSynonyms, callback, fallback, url }) {
+function filterDateRange(graph,
+                         started_before,
+                         started_after,
+                         ended_before,
+                         ended_after) {
+
+  if (started_before || started_after || ended_before || ended_after) {
+      Object.keys(graph).forEach(function (key) {
+          var graph_node = graph[key];
+
+          if (graph_node && isCanonicalNode(graph_node)){
+              if (graph_node.dates) {
+                  if(graph_node.dates["start-date"]){
+                      if (new Date(graph_node.dates["start-date"]) > new Date(started_before) ||
+                          new Date(graph_node.dates["start-date"]) < new Date(started_after)) {
+                          removeCanonicalNodeAndEdges(graph, key);
+                      }
+                  }
+                  if(graph_node.dates["end-date"]){
+                      if (new Date(graph_node.dates["end-date"]) > new Date(ended_before) ||
+                          new Date(graph_node.dates["end-date"]) < new Date(ended_after)) {
+                          removeCanonicalNodeAndEdges(graph, key);
+                      }
+                  }
+              }
+          }
+      });
+  }
+
+  return graph
+}
+
+function removeCanonicalNodeAndEdges(graph, key) {
+    delete graph[key]
+
+    var edge_keys = Object.keys(graph).filter(function(i_key){
+      return graph[i_key].edges["from"].includes(key)
+    });
+
+    edge_keys.forEach(function (edge_key) {
+        delete graph[edge_key]
+    })
+}
+
+function openregisterPickerEngine ({ additionalEntries,
+                                       additionalSynonyms,
+                                       callback,
+                                       fallback,
+                                       url,
+                                       started_before,
+                                       started_after,
+                                       ended_before,
+                                       ended_after }) {
+
   // This will be reassigned when the graph is fetched and ready.
   var suggest = fallback || function (query, syncResults) {
     syncResults([])
-  }
+  };
 
-  var request = new Request()
-  request.open('GET', url)
+  var request = new Request();
+  request.open('GET', url);
   request.onreadystatechange = function handleStateChange () {
-    var error
-    var responseReady = (request.readyState === 4 && this.status >= 200 && this.status < 300)
+    var error;
+    var responseReady = (request.readyState === 4 && this.status >= 200 && this.status < 300);
     if (responseReady) {
       try {
         var graph = JSON.parse(request.responseText)
       } catch (exception) {
-        error = { error: 'Failed to parse JSON ' + exception }
+        error = { error: 'Failed to parse JSON ' + exception };
         if (callback) { callback(error) }
       }
       if (graph) {
         if (additionalEntries && additionalEntries.length) {
-          const additionalEntriesGraph = entriesToGraph(additionalEntries)
+          const additionalEntriesGraph = entriesToGraph(additionalEntries);
           for (var key in additionalEntriesGraph) {
             if (additionalEntriesGraph.hasOwnProperty(key)) {
               graph[key] = additionalEntriesGraph[key]
@@ -312,22 +363,23 @@ function openregisterPickerEngine ({ additionalEntries, additionalSynonyms, call
           }
         }
         if (additionalSynonyms && additionalSynonyms.length) {
-          const additionalSynonymsGraph = synonymsToGraph(additionalSynonyms)
+          const additionalSynonymsGraph = synonymsToGraph(additionalSynonyms);
           for (var key in additionalSynonymsGraph) {
             if (additionalSynonymsGraph.hasOwnProperty(key)) {
               graph[key] = additionalSynonymsGraph[key]
             }
           }
         }
-        suggest = createSuggestionEngine(graph)
+        graph = filterDateRange(graph, started_before, started_after, ended_before, ended_after);
+        suggest = createSuggestionEngine(graph);
         if (callback) { callback() }
       }
     } else {
-      error = { error: 'Failed to fetch URL' }
+      error = { error: 'Failed to fetch URL' };
       if (callback) { callback(error) }
     }
-  }
-  request.send()
+  };
+  request.send();
 
   function suggestWrapper () {
     suggest.apply(this, arguments)
@@ -336,4 +388,4 @@ function openregisterPickerEngine ({ additionalEntries, additionalSynonyms, call
   return suggestWrapper
 }
 
-module.exports = openregisterPickerEngine
+module.exports = openregisterPickerEngine;
